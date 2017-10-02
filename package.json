@@ -1,6 +1,5 @@
 {
   "main": "dist/networked-aframe.js",
-
   "scripts": {
     "build": "browserify src/index.js -o server/static/build.js",
     "easyrtc-install": "cd ./node_modules/easyrtc; npm install; cd ../../;",

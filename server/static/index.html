@@ -1,16 +1,40 @@
+<!DOCTYPE html>
 <html>
 
 <head>
   <meta charset="utf-8">
-  <title>Dev Example — Networked-Aframe</title>
-  <meta name="description" content="Dev Example — Networked-Aframe">
+  <title>Reality Garage - Shared Video</title>
+  <meta name="description" content="Reality Garage - Shared Video">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+
+  <!-- START CPT ADDED -->
 
   <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
-  <script src="js/build.js"></script>
-
+  <!-- <script src="js/build.js"></script> -->
   <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
-  <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
-  <!-- <script src="/js/spawn-in-circle.component.js"></script> -->
+  <!-- EVENT STUFF -->
+  <script src="js/aframe-event-set-component.js"></script>
+  <script src="js/set-scene.js"></script>
+  <script src="js/networked-aframe.min.js"></script>
+
+
+  <script src="https://npmcdn.com/aframe-animation-component@3.0.1"></script>
+
+  <script src="https://npmcdn.com/aframe-layout-component@3.0.1"></script>
+
+
+  <!-- END CPT ADDED -->
+
+
+
+  <!-- <script src="components/aframe/dist/aframe-master.min.js"></script> -->
+
+  <!-- <script src="js/aframe-randomizer-components.min.js"></script> -->
+
+  <script src="js/spawn-in-circle.component.js"></script>
+
+
 
 
 
@@ -34,38 +58,30 @@
       console.log("onConnect", new Date());
     }
   </script>
+  <script src="socket.io/socket.io.js"></script>
+  <script src="easyrtc/easyrtc.js"></script>
 
-
-
-
-
-
-
-
-  <!-- EVENT STUFF -->
-  <script src="js/aframe-event-set-component.js"></script>
-
-  <!-- CUSTOM SCRIPTS -->
-  <script src="js/set-scene.js"></script>
 </head>
-
 
 <body>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
 
-  <script src="/easyrtc/easyrtc.js"></script>
-
-  <a-scene networked-scene=" room: dev; debug: true;  adapter: wseasyrtc;">
+  <a-scene networked-scene="
+      room: dev;
+      app: RGExperience;
+      debug: false;
+      audio: true;
+      adapter: wseasyrtc;
+    ">
     <a-assets>
 
-      <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous">
-      <img id="envrironment-scene" src="CHANGE THIS !!!!!!!" crossorigin="anonymous" />
+
 
       <!-- Templates -->
 
       <!-- Avatar -->
       <script id="avatar-template" type="text/html">
+
         <a-entity class="avatar">
           <a-sphere class="head" color="#5985ff" scale="0.45 0.5 0.4" random-color></a-sphere>
           <a-entity class="face" position="0 0.05 0">
@@ -77,25 +93,39 @@
             </a-sphere>
           </a-entity>
         </a-entity>
+
       </script>
 
       <script id="simple" type="text/html">
         <a-sphere></a-sphere>
       </script>
-
+      <!-- /Templates -->
+      <!-- /Templates -->
       <!-- /Templates -->
 
 
 
-      <!-- !!!!!!!!!!!!!!   Link to click sound -->
+      <!-- ENVIRONMENT!!!!! -->
+      <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous">
+
+
       <!-- !!!!!!!!!!!!!!   Link to click sound -->
       <!-- !!!!!!!!!!!!!!   Link to click sound -->
       <audio id="click-sound" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg"></audio>
 
 
+      <!-- IMG USED FOR PORTALS -->
+      <img src="img/city.jpg" id="img1" alt="">
+      <img src="img/city2.jpg" id="img2" alt="">
 
-      <!-- Link to ExperienceScene (In Video Form) -->
-      <!-- Link to ExperienceScene (In Video Form) -->
+      <!--!!!!!!!!!!!!!!   Link to portal thumbnail Image -->
+      <img id="img-thumb" crossorigin="anonymous" src="img/city.jpg">
+
+
+
+
+
+
       <!-- Link to ExperienceScene (In Video Form) -->
 
       <!-- PEARL STREET VIDEO INFRONT OF SHOP -->
@@ -103,43 +133,12 @@
       <!-- ZOOMED OUT MUSICIAN VIDEO @ RAYBACK-->
       <!-- <video src="vids/Mono.mp4" id="video2" controls></video> -->
 
-      <img src="img/city.jpg" id="img1" alt="">
-      <img src="img/city2.jpg" id="img2" alt="">
-
-      <!--!!!!!!!!!!!!!!   Link to portal thumbnail Image -->
-      <!--!!!!!!!!!!!!!!   Link to portal thumbnail Image -->
-      <!--!!!!!!!!!!!!!!   Link to portal thumbnail Image -->
-      <img id="img-thumb" crossorigin="anonymous" src="img/city.jpg">
-
-
+      <!-- #sky = #experience-scene (PAUSED)-->
+      <!-- <video id="sky" src="/vids/ORCA_Demo_360_002.mp4" autoplay crossorigin="anonymous" /> -->
+      <video id="video" src="/vids/ORCA_Demo_360_002.mp4" crossorigin="anonymous" autoplay/>
 
     </a-assets>
 
-
-    <!-- <a-sky src="#environment-node" rotation="0 -90 0"></a-sky> -->
-
-    <a-entity position="0 0 0" geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0" material="src: #grid; repeat: 10000 10000; transparent: true; metalness:0.6; roughness: 0.4; sphericalEnvMap: #environment-scene;"></a-entity>
-
-
-
-
-    <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera="userHeight: 1.6" wasd-controls look-controls>
-      <!-- !!!!!!!!!!!!!!  Camera + cursor. -->
-      <!-- !!!!!!!!!!!!!!  Camera + cursor. -->
-      <!-- !!!!!!!!!!!!!!  Camera + cursor. -->
-      <a-entity id="camera" camera>
-
-        <!-- !!!!!!!!!! CURSOR -->
-        <a-cursor id="cursor" material="color:red" animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150" animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500" event-set__1="_event: mouseenter; color: springgreen"
-          event-set__2="_event: mouseleave; color: black" fuse="true" raycaster="objects: .link;"></a-cursor>
-      </a-entity>
-    </a-entity>
-
-
-
-
-
-    <!-- LIGHTS -->
     <a-entity light="color: #ccccff; intensity: 1; type: ambient;" visible=""></a-entity>
     <a-entity light="color: #ffaaff; intensity: 1.5" position="5 5 5"></a-entity>
 
@@ -147,33 +146,76 @@
 
 
 
-    <!-- EXPERIENCE SCENE -->
-    <!-- EXPERIENCE SCENE -->
-    <!-- EXPERIENCE SCENE -->
-    <a-videosphere id="experience-scene" position="0 5 0" src="img/co.jpg" rotation="0 180 0" video-controls="src:#video;"></a-videosphere>
 
 
-    <a-entity id="video-controls" position="-0.75 -0.4 -0.75" scale="1 1 1"  video-controls="src:#video; size:0.25l; distance:0"></a-entity>
+    <!-- !!!!!! LEVIS OG !!!!! -->
+    <!-- <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera="userHeight: 1.6" spawn-in-circle="radius:3" wasd-controls look-controls>
+    </a-entity> -->
+
+
+    <a-entity id="player" networked="template:#avatar-template;showLocalTemplate:false;" camera="userHeight: 1.6" spawn-in-circle="radius:3" wasd-controls look-controls>
+
+      <!-- !!!!!!!!!!!!!!  Camera + cursor. -->
+      <a-entity id="camera" camera>
+
+        <!-- !!!!!!!!!! CURSOR -->
+        <a-cursor id="cursor" material="color:red" animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150" animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500" event-set__1="_event: mouseenter; color: springgreen"
+          event-set__2="_event: mouseleave; color: black" fuse="true" raycaster="objects: .link;"></a-cursor>
+
+      </a-entity>
+    </a-entity>
+
+
+
+
+
+
+
+
+    <!-- !!!!  LEVIS OG !!!!! -->
+    <!-- <a-entity position="0 0 0" geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0" material="src: #grid; repeat: 10000 10000; transparent: true; metalness:0.6; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity> -->
+
+    <a-entity position="0 0 0" geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0" material="src: #grid; repeat: 10000 10000; transparent: true; metalness:0.6; roughness: 0.4; sphericalEnvMap: #experience-scene;"></a-entity>
+
+
+
+
+
+
+
+    <!-- <a-sky src="#sky" rotation="0 -90 0"></a-sky> -->
+
+
+
+    <!-- EXPERIENCE SCENE -->
+    <!-- EXPERIENCE SCENE -->
+    <!-- EXPERIENCE SCENE -->
+    <a-videosphere id="experience-scene" position="0 5 0" rotation="0 180 0" src="#video" video-controls="src:#video;"></a-videosphere>
+
+
+    <a-entity id="video-controls" position="-0.75 -0.4 -0.75" scale="1 1 1" video-controls="src:#video; size:0.25l; distance:0"></a-entity>
 
 
     <!-- !!!!!!!!!!!!!!  Portal links. -->
     <!-- !!!!!!!!!!!!!!  Portal links. -->
     <!-- !!!!!!!!!!!!!!  Portal links. -->
-    <a-entity id="links" layout="type: line; margin: 1.5" position="0 0.25 -1" scale="1 1  1">
+    <!-- DOCS ON LAYOUT: https://github.com/ngokevin/aframe-layout-component -->
+    <a-entity id="links" layout="type: circle; radius: 4" position="0 0.25 -1" scale="1 1  1">
       <!-- FOREST THUMBNAIL (PORTAL) -->
       <a-entity class="link" template="src: #portal" data-src="#img1" data-thumb="#img1"></a-entity>
       <!-- Video2 THUMBNAIL (PORTAL) -->
       <a-entity class="link" template="src: #portal" data-src="#img2" data-thumb="#img2"></a-entity>
+      <!-- Video2 THUMBNAIL (PORTAL) -->
+      <a-entity class="link" template="src: #portal" data-src="#video" data-thumb="#video"></a-entity>
     </a-entity>
 
 
     <!-- !!!!!!!!!!!!!!  Portal Functionality -->
-    <!-- !!!!!!!!!!!!!!  Portal Functionality -->
-    <!-- !!!!!!!!!!!!!!  Portal Functionality -->
     <script id="portal" type="text/html">
 
-      <a-sphere class="link" position="0 .5 -1" radius="0.5" material="shader: flat; src: ${thumb}" event-set__1="_event: mousedown; radius: 0.75" event-set__2="_event: mouseup; radius: 0.5" event-set__3="_event: mouseenter; radius: 0.65;" event-set__4="_event: mouseleave; scale: 1 1 1"
-        set-scene="on: click; target: #experience-scene, #video-controls; src: ${src};" sound="on: click; src: #click-sound"></a-sphere>
+      <a-sphere class="link" position="0 1 0" radius="0.5" material="shader: flat; src: ${thumb}" event-set__1="_event: mousedown; radius: 0.75" event-set__2="_event: mouseup; radius: 0.5" event-set__3="_event: mouseenter; radius: 0.65;" event-set__4="_event: mouseleave; radius: 0.5;"
+        set-scene="on: click; target: #experience-scene, #video-controls; src: ${src};" sound="on: click; src: #click-sound">
+        < </a-sphere>
 
     </script>
 
@@ -187,6 +229,36 @@
 
 
   </a-scene>
+
+
+  <script>
+    // On mobile remove elements that are resource heavy
+    var isMobile = AFRAME.utils.device.isMobile();
+    var forcepause = true;
+    var sceneEl = document.querySelector('a-scene');
+    var vidya = sceneEl.querySelector('video');
+
+    if (isMobile) {
+      var particles = document.getElementById('particles');
+      particles.parentNode.removeChild(particles);
+    }
+
+    //    socket.on("connectedusers", function () {
+    //        console.log("user connected");
+    //    });
+    //
+    //    socket.on("playvideo", function () {
+    //        forcepause = false;
+    //        sceneEl.enterVR();
+    //        console.log("GOT PLAY COMMAND!");
+    //        vidya.play();
+    //    });
+
+    document.querySelector('#player').addEventListener('loaded', function() {
+      console.log('loaded');
+      // vidya.pause();
+    });
+  </script>
 </body>
 
 </html>
